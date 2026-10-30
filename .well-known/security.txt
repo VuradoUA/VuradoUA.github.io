@@ -1,0 +1,6 @@
+# Found a security issue on vserhiychyk.com? Thanks for looking.
+# Please report it by email. I'll reply and credit you if you want.
+Contact: mailto:vladyslav.business.only@gmail.com
+Expires: 2027-10-29T23:59:00.000Z
+Preferred-Languages: en, pt
+Canonical: https://vserhiychyk.com/.well-known/security.txt

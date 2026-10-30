@@ -2,75 +2,268 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- Security policy. GitHub Pages can't send custom headers, so the CSP lives here.
+       Only same-origin scripts run, nothing inline, no eval, no third parties except Google Fonts
+       and the YouTube embed used by one shell command. Trusted Types blocks DOM-XSS sinks. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vladyslav Serhiychyk — offensive security</title>
-  <meta name="description" content="Vladyslav Serhiychyk: Computer Science & Engineering student at FCT NOVA training for offensive security. Projects, write-ups and contact.">
+  <title>Vladyslav Serhiychyk | Offensive security</title>
+  <meta name="description" content="Vladyslav Serhiychyk, final-year Computer Science and Engineering student at NOVA FCT training for offensive security. Projects, experience, skills and contact.">
+  <meta name="author" content="Vladyslav Serhiychyk">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://vserhiychyk.com/">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://vserhiychyk.com/">
+  <meta property="og:title" content="Vladyslav Serhiychyk | Offensive security">
+  <meta property="og:description" content="Final-year Computer Science and Engineering student at NOVA FCT, training for pentesting and red team.">
+  <meta property="og:image" content="https://vserhiychyk.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Vladyslav Serhiychyk",
+    "url": "https://vserhiychyk.com/",
+    "jobTitle": "Computer Science and Engineering student, offensive security",
+    "affiliation": { "@type": "CollegeOrUniversity", "name": "NOVA School of Science and Technology (NOVA FCT)" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Lisbon", "addressCountry": "PT" },
+    "sameAs": [
+      "https://github.com/VuradoUA",
+      "https://www.linkedin.com/in/vladyslav-serhiychyk-105598334/",
+      "https://tryhackme.com/p/Vurado"
+    ]
+  }
+  </script>
+
+  <!-- Runs first: frame guard (anti-clickjacking) and the "js" flag for animations. -->
+  <script src="boot.js"></script>
+  <script src="content.js" defer></script>
+  <script src="site.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <main id="main" class="session">
+  <!-- ============ top bar ============ -->
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#top" aria-label="Vladyslav Serhiychyk, back to top">
+        <span class="brand-ps">~/</span>vserhiychyk<span class="cursor" aria-hidden="true"></span>
+      </a>
 
-    <!-- Hero: a recon report about me -->
-    <header class="report">
-      <p class="cmd"><span class="ps1">$</span> nmap -sV --reason vladyslav</p>
-      <p class="out dim">Starting Nmap at <span id="scan-time">2026-10-30</span></p>
-      <h1>
-        <span class="report-label">Nmap scan report for</span>
-        <span class="name">Vladyslav Serhiychyk</span>
-      </h1>
-      <p class="out">Host is up. Final-year Computer Science &amp; Engineering student at FCT NOVA,
-        training for <strong>offensive security</strong>. Looking for a first role in pentesting or red team.</p>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">menu</button>
 
-      <div class="ports" role="table" aria-label="Skills, shown as scanned ports">
-        <div class="row head" role="row">
-          <span role="columnheader">PORT</span>
-          <span role="columnheader">STATE</span>
-          <span role="columnheader">SERVICE</span>
-          <span role="columnheader">VERSION</span>
+      <nav id="nav" class="nav" aria-label="Sections">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#writeups" data-needs="writeups" hidden>Write-ups</a>
+        <a href="#contact">Contact</a>
+        <a href="#shell" class="nav-shell"><span aria-hidden="true">&gt;_</span> Shell</a>
+        <a class="btn btn-sm btn-primary" href="#" data-cv hidden>Download CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ hero ============ -->
+    <section id="top" class="hero wrap" aria-labelledby="hero-name">
+      <div class="hero-copy">
+        <p class="boot mono" aria-hidden="true"><span class="ps1">guest@vserhiychyk:~$</span> <span class="boot-cmd" data-type="whoami">whoami</span><span class="cursor"></span></p>
+
+        <h1 id="hero-name" class="name">
+          <span class="sr-only">Vladyslav Serhiychyk</span>
+          <span class="name-line" aria-hidden="true" data-scramble data-glitch="Vladyslav">Vladyslav</span>
+          <span class="name-line" aria-hidden="true" data-scramble data-glitch="Serhiychyk">Serhiychyk</span>
+        </h1>
+
+        <p class="lead fade">Final-year Computer Science and Engineering student at NOVA FCT, training for offensive security. I learn by attacking lab machines on TryHackMe, competing in CTFs with my university team, and building my own security tools.</p>
+
+        <p class="status fade"><span class="dot" aria-hidden="true"></span>Open to internships and junior roles in pentesting and red team. Based in Lisbon.</p>
+
+        <div class="cta fade">
+          <a class="btn btn-primary" href="mailto:vladyslav.business.only@gmail.com" data-email-link>Email me</a>
+          <a class="btn" href="#projects">See projects</a>
+          <a class="btn" href="#" data-cv hidden>Download CV</a>
         </div>
-        <!-- rows rendered from site.js -->
+
+        <ul class="hero-links fade" aria-label="Profiles">
+          <li><a href="https://github.com/VuradoUA" data-profile="github">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/vladyslav-serhiychyk-105598334/" data-profile="linkedin">LinkedIn</a></li>
+          <li><a href="https://tryhackme.com/p/Vurado" data-profile="tryhackme">TryHackMe</a></li>
+        </ul>
       </div>
-      <p class="out dim legend"><span class="st open">open</span> means I use it confidently, <span class="st filtered">filtered</span> means I'm learning it now.</p>
-    </header>
 
-    <section id="projects" aria-labelledby="projects-h">
-      <h2 id="projects-h" class="cmd"><span class="ps1">$</span> ls -l ~/projects</h2>
-      <ul class="listing" id="project-list"></ul>
+      <div class="term hero-term" aria-label="Quick facts">
+        <div class="term-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="term-title">recon.sh</span></div>
+        <div class="term-body">
+          <p class="ln cmdline" aria-hidden="true"><span class="ps1">$</span> <span data-type="./recon.sh --target vladyslav">./recon.sh --target vladyslav</span></p>
+          <dl class="recon seq" id="recon"><!-- filled from content.js --></dl>
+          <p class="ln dim recon-done seq-tail" aria-hidden="true">[*] recon complete<span class="cursor"></span></p>
+        </div>
+      </div>
     </section>
 
-    <section id="writeups" aria-labelledby="writeups-h">
-      <h2 id="writeups-h" class="cmd"><span class="ps1">$</span> ls ~/writeups</h2>
-      <ul class="listing" id="writeup-list"></ul>
+    <!-- ============ about ============ -->
+    <section id="about" class="section wrap" aria-labelledby="about-h">
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="cat about.md">cat about.md</span></p>
+        <h2 id="about-h" data-scramble>About</h2>
+      </div>
+      <div class="body about">
+        <div class="prose">
+          <p>I'm a Computer Science and Engineering student at NOVA FCT in Lisbon, in my final year. After three semesters of Electrical and Computer Engineering I transferred to focus on software and security, and offensive security is where I want to build my career.</p>
+          <p>Outside the degree I'm Vice-President of the NOVA FCT Computer Science Society, I compete with the university CTF team and I work on robotics projects at IN-NOVA. I played federated basketball for 11 years and still play for the university team.</p>
+        </div>
+        <aside class="now" aria-labelledby="now-h">
+          <h3 id="now-h">Right now</h3>
+          <ul id="now-list" class="now-list"></ul>
+        </aside>
+      </div>
     </section>
 
-    <section id="contact" aria-labelledby="contact-h">
-      <h2 id="contact-h" class="cmd"><span class="ps1">$</span> cat contact.txt</h2>
-      <dl class="contact" id="contact-list"></dl>
+    <!-- ============ projects ============ -->
+    <section id="projects" class="section wrap" aria-labelledby="projects-h">
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="ls -l ~/projects">ls -l ~/projects</span></p>
+        <h2 id="projects-h" data-scramble>Projects</h2>
+        <p class="rail-note">Security tools I've designed and built. Source code for each one is on GitHub.</p>
+      </div>
+      <div class="body">
+        <div id="project-list" class="projects"></div>
+      </div>
     </section>
 
-    <!-- Interactive shell (easter egg) -->
-    <section class="shell" aria-labelledby="shell-h">
-      <h2 id="shell-h" class="out dim">Try the shell. Type <kbd>help</kbd> and press Enter.</h2>
-      <div id="shell-log" class="shell-log" aria-live="polite"></div>
-      <form id="shell-form" class="shell-line" autocomplete="off">
-        <label for="shell-input" class="ps1">guest@vserhiychyk:~$</label>
-        <input id="shell-input" type="text" spellcheck="false" autocapitalize="off" aria-label="Shell command">
-      </form>
+    <!-- ============ experience ============ -->
+    <section id="experience" class="section wrap" aria-labelledby="experience-h">
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="cat experience.log">cat experience.log</span></p>
+        <h2 id="experience-h" data-scramble>Experience</h2>
+      </div>
+      <div class="body">
+        <ol id="experience-list" class="timeline"></ol>
+
+        <h3 class="sub" id="edu-h">Education and training</h3>
+        <ol id="education-list" class="timeline" aria-labelledby="edu-h"></ol>
+      </div>
     </section>
 
-    <footer class="out dim">Nmap done: 1 IP address (1 host up) scanned. Hosted on GitHub Pages.</footer>
+    <!-- ============ skills ============ -->
+    <section id="skills" class="section wrap" aria-labelledby="skills-h">
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="nmap -sV vladyslav">nmap -sV vladyslav</span></p>
+        <h2 id="skills-h" data-scramble>Skills</h2>
+        <p class="rail-note">Shown as an nmap scan. <span class="st-open">open</span> means I use it with confidence, <span class="st-filtered">filtered</span> means I'm learning it now.</p>
+      </div>
+      <div class="body">
+        <div class="term">
+          <div class="term-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="term-title">nmap 7.95</span></div>
+          <div class="term-body">
+            <p class="ln dim" aria-hidden="true">Nmap scan report for vladyslav (127.0.0.1)<br>Host is up (0.00042s latency).</p>
+            <div class="ports seq" id="ports" role="table" aria-label="Skills, shown as scanned ports">
+              <div class="prow phead" role="row">
+                <span role="columnheader">PORT</span>
+                <span role="columnheader">STATE</span>
+                <span role="columnheader">SERVICE</span>
+                <span role="columnheader">VERSION</span>
+              </div>
+            </div>
+            <p class="ln dim seq-tail" aria-hidden="true">Service detection performed. <span id="port-count"></span></p>
+          </div>
+        </div>
+
+        <div class="skill-extra">
+          <div>
+            <h3>Programming</h3>
+            <p id="langs-code" class="plain"></p>
+          </div>
+          <div>
+            <h3>Spoken languages</h3>
+            <ul id="langs-spoken" class="spoken"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ write-ups (hidden until there's at least one) ============ -->
+    <section id="writeups" class="section wrap" aria-labelledby="writeups-h" hidden>
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="ls ~/writeups">ls ~/writeups</span></p>
+        <h2 id="writeups-h" data-scramble>Write-ups</h2>
+        <p class="rail-note">Walkthroughs of rooms and CTF challenges I've solved.</p>
+      </div>
+      <div class="body">
+        <ul id="writeup-list" class="writeups"></ul>
+      </div>
+    </section>
+
+    <!-- ============ contact ============ -->
+    <section id="contact" class="section wrap" aria-labelledby="contact-h">
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="cat contact.txt">cat contact.txt</span></p>
+        <h2 id="contact-h" data-scramble>Contact</h2>
+      </div>
+      <div class="body">
+        <p class="contact-lead">Hiring for a security team, or have a project or CTF in mind? Email is the best way to reach me.</p>
+        <div class="email-row">
+          <a class="email-big mono" id="email-big" href="mailto:vladyslav.business.only@gmail.com">vladyslav.business.only@gmail.com</a>
+          <button type="button" class="btn btn-sm" id="copy-email">Copy</button>
+          <span class="copy-msg mono" id="copy-msg" role="status" aria-live="polite"></span>
+        </div>
+        <dl class="contact-list" id="contact-list"></dl>
+      </div>
+    </section>
+
+    <!-- ============ shell ============ -->
+    <section id="shell" class="section wrap shell-section" aria-labelledby="shell-h">
+      <div class="rail">
+        <p class="cmd mono" aria-hidden="true"><span class="ps1">$</span> <span data-type="./shell">./shell</span></p>
+        <h2 id="shell-h" data-scramble>Shell</h2>
+        <p class="rail-note">Prefer a terminal? Everything on this page is reachable from here. Type <kbd>help</kbd> and press Enter. <kbd>Tab</kbd> completes, <kbd>↑</kbd> <kbd>↓</kbd> browse history, and <kbd>`</kbd> jumps here from anywhere.</p>
+      </div>
+      <div class="body">
+        <div class="term shell" id="shell-term">
+          <div class="term-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="term-title">guest@vserhiychyk: ~</span></div>
+          <div class="term-body shell-body">
+            <div id="shell-log" class="shell-log" role="log" aria-live="polite"></div>
+            <form id="shell-form" class="shell-line" autocomplete="off">
+              <label for="shell-input" class="ps1">guest@vserhiychyk:~$</label>
+              <input id="shell-input" type="text" maxlength="200" spellcheck="false" autocapitalize="off" autocorrect="off" enterkeyhint="send" aria-label="Shell command">
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <footer class="footer wrap">
+    <p class="mono scan-done">Nmap done: 1 IP address (1 host up) scanned in <span id="scan-time">0.00</span> seconds</p>
+    <p class="foot-meta">
+      <span>&copy; <span id="year">2026</span> Vladyslav Serhiychyk</span>
+      <span>Hand-written HTML, CSS and JS. No trackers, no cookies.</span>
+      <a href="/.well-known/security.txt">security.txt</a>
+    </p>
+  </footer>
+
+  <!-- rickroll overlay (shell easter egg) -->
   <div id="tape" class="tape" hidden>
-    <button type="button" id="tape-close" class="tape-close">close [esc]</button>
+    <button type="button" id="tape-close" class="btn btn-sm tape-close">Close (Esc)</button>
     <div class="tape-frame"></div>
   </div>
-
-  <script src="site.js"></script>
 </body>
 </html>
