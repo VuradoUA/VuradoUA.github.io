@@ -5,7 +5,7 @@
 
 const CONTACT = {
   github:    "https://github.com/VuradoUA",
-  linkedin:  "",   // ex.: "https://www.linkedin.com/in/o-teu-perfil"
+  linkedin:  "https://www.linkedin.com/in/vladyslav-serhiychyk-105598334/",
   tryhackme: "https://tryhackme.com/p/Vurado",
   email:     "vladyslav.business.only@gmail.com",
   cv:        "",   // ex.: "cv.pdf" (põe o PDF na raiz do repo)
