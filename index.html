@@ -18,8 +18,11 @@
       font-family: "Courier New", monospace;
       padding: 16px;
       box-sizing: border-box;
+      cursor: pointer;
     }
     h1 { margin: 0; font-size: clamp(1.2rem, 4vw, 2rem); }
+    .cursor { animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
     .video {
       width: min(800px, 100%);
       aspect-ratio: 16 / 9;
@@ -27,19 +30,45 @@
       border-radius: 8px;
       overflow: hidden;
     }
-    .video iframe { width: 100%; height: 100%; border: 0; }
+    /* O iframe não recebe cliques: assim qualquer clique na página ativa o som */
+    .video iframe { width: 100%; height: 100%; border: 0; pointer-events: none; }
     p { margin: 0; color: #8b949e; }
+    #hint { color: #3fb950; }
   </style>
 </head>
 <body>
   <h1>$ ./portfolio --loading<span class="cursor">_</span></h1>
   <div class="video">
+    <!-- Arranca logo, mas sem som (os browsers só deixam autoplay com som depois de uma interação) -->
     <iframe
-      src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1"
+      id="player"
+      src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&playsinline=1&enablejsapi=1"
       title="Never gonna give you up"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen></iframe>
+      allow="autoplay; encrypted-media; picture-in-picture"></iframe>
   </div>
+  <p id="hint">[ press any key to continue ]</p>
   <p>Site em construção. Volta em breve 👀</p>
+
+  <script>
+    const player = document.getElementById('player');
+    const hint = document.getElementById('hint');
+
+    function send(func) {
+      player.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+    }
+
+    // À primeira interação (clique, tecla ou toque), liga o som e recomeça do início
+    function unmute() {
+      send('unMute');
+      player.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [100] }), '*');
+      player.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [0, true] }), '*');
+      send('playVideo');
+      hint.textContent = '[ never gonna give you up ]';
+      document.body.style.cursor = 'default';
+      ['click', 'keydown', 'touchstart'].forEach(e => document.removeEventListener(e, unmute));
+    }
+
+    ['click', 'keydown', 'touchstart'].forEach(e => document.addEventListener(e, unmute));
+  </script>
 </body>
 </html>
