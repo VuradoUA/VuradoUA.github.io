@@ -1,74 +1,76 @@
 <!doctype html>
-<html lang="pt">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>vserhiychyk.com</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      background: #0d1117;
-      color: #3fb950;
-      font-family: "Courier New", monospace;
-      padding: 16px;
-      box-sizing: border-box;
-      cursor: pointer;
-    }
-    h1 { margin: 0; font-size: clamp(1.2rem, 4vw, 2rem); }
-    .cursor { animation: blink 1s steps(1) infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
-    .video {
-      width: min(800px, 100%);
-      aspect-ratio: 16 / 9;
-      border: 2px solid #3fb950;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    /* O iframe não recebe cliques: assim qualquer clique na página ativa o som */
-    .video iframe { width: 100%; height: 100%; border: 0; pointer-events: none; }
-    p { margin: 0; color: #8b949e; }
-    #hint { color: #3fb950; }
-  </style>
+  <title>Vladyslav Serhiychyk — offensive security</title>
+  <meta name="description" content="Vladyslav Serhiychyk: Computer Science & Engineering student at FCT NOVA training for offensive security. Projects, write-ups and contact.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>$ ./portfolio --loading<span class="cursor">_</span></h1>
-  <div class="video">
-    <!-- Arranca logo, mas sem som (os browsers só deixam autoplay com som depois de uma interação) -->
-    <iframe
-      id="player"
-      src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0&playsinline=1&enablejsapi=1"
-      title="Never gonna give you up"
-      allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <main id="main" class="session">
+
+    <!-- Hero: a recon report about me -->
+    <header class="report">
+      <p class="cmd"><span class="ps1">$</span> nmap -sV --reason vladyslav</p>
+      <p class="out dim">Starting Nmap at <span id="scan-time">2026-10-30</span></p>
+      <h1>
+        <span class="report-label">Nmap scan report for</span>
+        <span class="name">Vladyslav Serhiychyk</span>
+      </h1>
+      <p class="out">Host is up. Final-year Computer Science &amp; Engineering student at FCT NOVA,
+        training for <strong>offensive security</strong>. Looking for a first role in pentesting or red team.</p>
+
+      <div class="ports" role="table" aria-label="Skills, shown as scanned ports">
+        <div class="row head" role="row">
+          <span role="columnheader">PORT</span>
+          <span role="columnheader">STATE</span>
+          <span role="columnheader">SERVICE</span>
+          <span role="columnheader">VERSION</span>
+        </div>
+        <!-- rows rendered from site.js -->
+      </div>
+      <p class="out dim legend"><span class="st open">open</span> means I use it confidently, <span class="st filtered">filtered</span> means I'm learning it now.</p>
+    </header>
+
+    <section id="projects" aria-labelledby="projects-h">
+      <h2 id="projects-h" class="cmd"><span class="ps1">$</span> ls -l ~/projects</h2>
+      <ul class="listing" id="project-list"></ul>
+    </section>
+
+    <section id="writeups" aria-labelledby="writeups-h">
+      <h2 id="writeups-h" class="cmd"><span class="ps1">$</span> ls ~/writeups</h2>
+      <ul class="listing" id="writeup-list"></ul>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h" class="cmd"><span class="ps1">$</span> cat contact.txt</h2>
+      <dl class="contact" id="contact-list"></dl>
+    </section>
+
+    <!-- Interactive shell (easter egg) -->
+    <section class="shell" aria-labelledby="shell-h">
+      <h2 id="shell-h" class="out dim">Try the shell. Type <kbd>help</kbd> and press Enter.</h2>
+      <div id="shell-log" class="shell-log" aria-live="polite"></div>
+      <form id="shell-form" class="shell-line" autocomplete="off">
+        <label for="shell-input" class="ps1">guest@vserhiychyk:~$</label>
+        <input id="shell-input" type="text" spellcheck="false" autocapitalize="off" aria-label="Shell command">
+      </form>
+    </section>
+
+    <footer class="out dim">Nmap done: 1 IP address (1 host up) scanned. Hosted on GitHub Pages.</footer>
+  </main>
+
+  <div id="tape" class="tape" hidden>
+    <button type="button" id="tape-close" class="tape-close">close [esc]</button>
+    <div class="tape-frame"></div>
   </div>
-  <p id="hint">[ press any key to continue ]</p>
-  <p>Site em construção. Volta em breve 👀</p>
 
-  <script>
-    const player = document.getElementById('player');
-    const hint = document.getElementById('hint');
-
-    function send(func) {
-      player.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
-    }
-
-    // À primeira interação (clique, tecla ou toque), liga o som e recomeça do início
-    function unmute() {
-      send('unMute');
-      player.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [100] }), '*');
-      player.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [0, true] }), '*');
-      send('playVideo');
-      hint.textContent = '[ never gonna give you up ]';
-      document.body.style.cursor = 'default';
-      ['click', 'keydown', 'touchstart'].forEach(e => document.removeEventListener(e, unmute));
-    }
-
-    ['click', 'keydown', 'touchstart'].forEach(e => document.addEventListener(e, unmute));
-  </script>
+  <script src="site.js"></script>
 </body>
 </html>
