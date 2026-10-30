@@ -5,7 +5,7 @@
 
 const CONTACT = {
   github:    "https://github.com/VuradoUA",
-  linkedin:  "https://www.linkedin.com/in/vladyslav-serhiychyk-105598334/",
+  linkedin:  "",   // ex.: "https://www.linkedin.com/in/o-teu-perfil"
   tryhackme: "https://tryhackme.com/p/Vurado",
   email:     "vladyslav.business.only@gmail.com",
   cv:        "",   // ex.: "cv.pdf" (põe o PDF na raiz do repo)
@@ -26,6 +26,10 @@ const PORTS = [
 // { name: "port-scanner", desc: "Multithreaded TCP scanner with banner grabbing.",
 //   tags: ["Python", "sockets"], repo: "https://github.com/VuradoUA/port-scanner", date: "2026-11" },
 const PROJECTS = [
+  { name: "quantumtrace",
+    desc: "Non-intrusive post-quantum readiness scanner. Finds classical crypto in network captures, source code, certificates and configs, scores the quantum risk and outputs a prioritised migration roadmap plus a CycloneDX CBOM mapped to NIST FIPS 203/204/205. Built at JunctionX Lisbon.",
+    tags: ["Python", "tree-sitter", "tshark", "Streamlit", "Docker"],
+    repo: "https://github.com/VuradoUA/quantumtrace" },
 ];
 
 // Write-ups (TryHackMe, CTFs). Mesmo formato: { name, desc, url, date }
